@@ -122,7 +122,7 @@ def plot_submissions(participant_name):
     participant_submissions = (
         pd.read_pickle('files_to_update/submissions.pkl')
             .query('participant == @participant_name')
-            .filter(['submission_time', 'accuracy'])
+            .filter(['submission_time', 'balanced_accuracy'])
             .set_index('submission_time')
             .copy()
     )
@@ -159,7 +159,7 @@ def get_submissions_dataframe():
     try:
         return pd.read_pickle('files_to_update/submissions.pkl')
     except FileNotFoundError:
-        return pd.DataFrame(columns=['participant', 'accuracy', 'submission_time'])
+        return pd.DataFrame(columns=['participant', 'balanced_accuracy', 'submission_time'])
 
 
 def generate_leaderboard_dataframe(submissions_df):
@@ -168,11 +168,11 @@ def generate_leaderboard_dataframe(submissions_df):
         .assign(
             attempts=lambda df_: df_.groupby('participant')['participant'].transform('count')
         )
-        .sort_values(['accuracy','submission_time'], ascending=[False, True])
+        .sort_values(['balanced_accuracy','submission_time'], ascending=[False, True])
         .drop_duplicates(subset=['participant'], keep='first')
         .assign(position=lambda df_: range(1, len(df_) + 1))
         .set_index('position')
-        .filter(['participant', 'accuracy', 'attempts'])
+        .filter(['participant', 'balanced_accuracy', 'attempts'])
         )
 
     return best_results_per_participant
