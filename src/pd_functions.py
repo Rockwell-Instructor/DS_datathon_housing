@@ -84,10 +84,9 @@ def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
         pd.DataFrame: DataFrame with participant results.
     """
     # Read the file with the real values
-    results = pd.read_csv(RESULTS_PATH, header=None)
+    results = pd.read_csv(RESULTS_PATH)
     results.columns = ['id', 'real']
 
-    # --- FIX: Ensure 'id' columns have the same data type ---
     results['id'] = results['id'].astype('int32')
     test['id'] = test['id'].astype('int32')
 
