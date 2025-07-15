@@ -92,8 +92,8 @@ def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
 
     # Now the merge will work correctly
     merged_df = pd.merge(
-        test[['id', 'preds']], 
-        results, 
+        results,
+        test[['id', 'preds']],  
         how='left', 
         on='id'
     )
