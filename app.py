@@ -40,7 +40,7 @@ def process_uploaded_file(uploaded_file, participant_name):
         try:
             uploaded_file.seek(0)  # Reset file pointer to the beginning
             test = get_ready_test(RESULTS_PATH, uploaded_file)
-            participant_results = get_accuracy(RESULTS_PATH, test)
+            participant_results = get_balanced_accuracy(RESULTS_PATH, test)
 
             st.success('Dataframe uploaded successfully!')
             display_participant_results(participant_results)
