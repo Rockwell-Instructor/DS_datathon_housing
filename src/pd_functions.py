@@ -96,7 +96,7 @@ def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
     merged_df = pd.merge(
         results,
         test[['id', 'preds']],  
-        how='inner', 
+        how='left', 
         on='id'
     )
 
