@@ -87,7 +87,11 @@ def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
     results = pd.read_csv(RESULTS_PATH, header=None)
     results.columns = ['id', 'real']
 
-    # Merge the predictions from the test set with the real values
+    # --- FIX: Ensure 'id' columns have the same data type ---
+    results['id'] = results['id'].astype('int32')
+    test['id'] = test['id'].astype('int32')
+
+    # Now the merge will work correctly
     merged_df = pd.merge(
         test[['id', 'preds']], 
         results, 
@@ -96,7 +100,6 @@ def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
     )
 
     # Calculate the balanced accuracy score
-    # This requires the full vectors of true and predicted labels
     bal_acc = balanced_accuracy_score(merged_df['real'], merged_df['preds'])
 
     # Create the final DataFrame with the result
