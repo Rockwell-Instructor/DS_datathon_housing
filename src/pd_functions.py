@@ -107,7 +107,7 @@ def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
     final_results = pd.DataFrame({
         'participant': [st.session_state.text_input],
         'balanced_accuracy': [bal_acc],
-        'submission_time': [pd.Timestamp.now(tz="Europe/Berlin")]
+        'submission_time': [pd.Timestamp.now(tz="Europe/Berlin").strftime("%b %d %H:%M")]
     })
 
     return final_results
