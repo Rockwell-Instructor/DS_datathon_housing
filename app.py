@@ -8,7 +8,7 @@ RESULTS_PATH = 'data/results_housing_class.csv'
 
 def main():
     st.title('Housing Classification App')
-    st.write('Welcome to the housing classification app. Please enter your name and upload your results file to check your accuracy and see the leaderboard.')
+    st.write('Welcome to the housing classification app. Please enter your name and upload your results file to check your balanced accuracy and see the leaderboard.')
 
     participant_name = get_participant_name()
 
