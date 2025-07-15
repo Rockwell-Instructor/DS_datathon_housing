@@ -89,6 +89,7 @@ def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
 
     results['id'] = results['id'].astype('int32')
     test['id'] = test['id'].astype('int32')
+    results['real'] = results['real'].astype('object')
 
     # Now the merge will work correctly
     merged_df = pd.merge(
