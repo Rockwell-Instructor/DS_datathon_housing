@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import io
+from sklearn.metric import balanced_accuracy_score
 
 def get_ready_test(RESULTS_PATH: str, uploaded_file):
     """
@@ -70,6 +71,42 @@ def get_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
             .filter(['participant', 'accuracy', 'submission_time'])
     )
 
+def get_balanced_accuracy(RESULTS_PATH: str, test: pd.DataFrame):
+    """
+    Calculate the balanced accuracy of the test predictions and return a DataFrame 
+    with participant results.
+    
+    Args:
+        RESULTS_PATH (str): Path to the results file.
+        test (pd.DataFrame): Test DataFrame containing 'id' and 'preds' columns.
+    
+    Returns:
+        pd.DataFrame: DataFrame with participant results.
+    """
+    # Read the file with the real values
+    results = pd.read_csv(RESULTS_PATH, header=None)
+    results.columns = ['id', 'real']
+
+    # Merge the predictions from the test set with the real values
+    merged_df = pd.merge(
+        test[['id', 'preds']], 
+        results, 
+        how='left', 
+        on='id'
+    )
+
+    # Calculate the balanced accuracy score
+    # This requires the full vectors of true and predicted labels
+    bal_acc = balanced_accuracy_score(merged_df['real'], merged_df['preds'])
+
+    # Create the final DataFrame with the result
+    final_results = pd.DataFrame({
+        'participant': [st.session_state.text_input],
+        'balanced_accuracy': [bal_acc],
+        'submission_time': [pd.Timestamp.now(tz="Europe/Berlin")]
+    })
+
+    return final_results
 
 def plot_submissions(participant_name):
     """
